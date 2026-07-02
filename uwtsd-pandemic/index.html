@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>UWTSD Pandemic Prototype</title>
+<style>
+*{box-sizing:border-box} body{margin:0;background:#eee;font:16px Arial;color:#111}
+.phone{width:min(390px,94vw);min-height:780px;margin:24px auto;background:#fff;
+ border:5px solid #111;border-radius:34px;overflow:hidden}
+header{background:#000;color:#fff;padding:22px;font-weight:700;display:flex;
+ justify-content:space-between}.screen{display:none;padding:28px}.screen.active{display:block}
+button,input{width:100%;padding:16px;margin:8px 0;border:2px solid #111;
+ border-radius:12px;background:#fff;font:inherit}.primary{background:#000;color:#fff}
+.card{text-align:left}.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+small{display:block;margin-top:4px}.status{min-height:24px;font-weight:700}
+</style>
+</head>
+<body>
+<main class="phone">
+<header><span>UWTSD PANDEMIC</span><span>PANDEMIC</span></header>
+<section id="start" class="screen active">
+<h1>Campus Outbreak Response</h1>
+<button class="primary" data-go="modes">START GAME</button>
+<button data-go="join">JOIN GAME</button><button>HOW TO PLAY</button>
+<button>ACCESSIBILITY</button>
+</section>
+<section id="modes" class="screen"><h1>Select Play Mode</h1>
+<button class="card" data-go="join"><b>SOLO</b><small>1 player</small></button>
+<button class="card" data-go="join"><b>PASS & PLAY</b><small>2-6 players, one device</small></button>
+<button class="card" data-go="join"><b>ASYNC ONLINE</b><small>Take turns at different times</small></button>
+<button class="card" data-go="join"><b>LIVE ONLINE</b><small>All players connected</small></button>
+<button data-go="start">BACK</button></section>
+<section id="join" class="screen"><h1>Create or Join</h1>
+<button class="primary" data-go="campus">CREATE LOBBY</button>
+<input id="code" maxlength="6" placeholder="ROOM CODE">
+<input id="name" placeholder="PLAYER NAME">
+<button id="continue">CONTINUE</button><p class="status" id="msg"></p>
+<button data-go="modes">BACK</button></section>
+<section id="campus" class="screen"><h1>Choose Campus</h1>
+<button data-go="role">BIRMINGHAM</button><button data-go="role">SWANSEA</button>
+<button data-go="role">CARMARTHEN</button><button data-go="role">LAMPETER</button>
+<button data-go="role">LONDON</button><button data-go="join">BACK</button></section>
+<section id="role" class="screen"><h1>Choose Role</h1><div class="row">
+<button>MEDIC</button><button>RESEARCHER</button><button>SECURITY</button>
+<button>IT SUPPORT</button><button>LIBRARIAN</button><button>ANALYST</button></div>
+<button class="primary">CONFIRM ROLE</button><button data-go="campus">BACK</button></section>
+</main>
+<script>
+const screens=[...document.querySelectorAll('.screen')];
+function go(id){screens.forEach(s=>s.classList.remove('active'));
+ document.getElementById(id).classList.add('active')}
+document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>go(b.dataset.go));
+continue.onclick=()=>{const c=code.value.trim(),n=name.value.trim();
+ if(c.length!==6||!n){msg.textContent='Enter a 6-character code and player name.';return}
+ msg.textContent='Room found. Choose a campus.';setTimeout(()=>go('campus'),600)}
+</script>
+</body></html>
